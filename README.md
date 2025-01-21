@@ -70,8 +70,5 @@ AwesomeButton(
 ```
 ## 🚀Showcase
 
-
-
-https://github.com/user-attachments/assets/43fe12b7-0861-4bb4-85f1-369fe14a2dd4
-
+![demo_button](https://github.com/user-attachments/assets/66fb6c21-cf5b-4124-a38e-1870bddcb0fc)
 
