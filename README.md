@@ -1,4 +1,4 @@
-# AwesomeButton
+# Progressive Button
 
 A customizable Flutter button widget with built-in loading and progress indicators.
 
@@ -58,8 +58,8 @@ AwesomeButton(
 ```
 ## 🚀Showcase
 
-<video controls autoplay>
-  <source src="https://storage.googleapis.com/swiftkart-resources/demo.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+
+
+https://github.com/user-attachments/assets/43fe12b7-0861-4bb4-85f1-369fe14a2dd4
+
 
