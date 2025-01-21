@@ -9,21 +9,33 @@ A customizable Flutter button widget with built-in loading and progress indicato
 - Circular progress indicator (optional)
 - Stretches to full width (optional)
 - Estimated time-based progress simulation
+- Success and failure callbacks
+- Completion callback
+- Elevation and shadow color customization
+- Haptic feedback (optional)
 
 ## Parameters
 
-| Parameter               | Type                      | Default Value       | Description                                           |
-|-------------------------|---------------------------|---------------------|-------------------------------------------------------|
-| `text`                  | `String`                  | Required            | The text to display on the button                     |
-| `onPressed`             | `Future<void> Function()` | Required            | The async function to execute when button is pressed  |
-| `estimatedTime`         | `Duration`                | Required            | Expected duration of the async operation              |
-| `width`                 | `double`                  | `200`               | Width of the button (ignored if `stretched` is true)  |
-| `height`                | `double`                  | `40`                | Height of the button                                  |
-| `backgroundColor`       | `Color`                   | `Color(0xFFADD8E6)` | Background color of the button                        |
-| `progressColor`         | `Color`                   | `Color(0xFF87CEEB)` | Color of the progress indicator                       |
-| `showCircularIndicator` | `bool`                    | `true`              | Whether to show the circular loading indicator        |
-| `progressCap`           | `double`                  | `0.9`               | Maximum progress value before completion (0.0 to 1.0) |
-| `stretched`             | `bool`                    | `false`             | Whether the button should stretch to full width       |
+| Parameter               | Type                       | Default Value                           | Description                                           |
+|-------------------------|----------------------------|-----------------------------------------|-------------------------------------------------------|
+| `text`                  | `String`                   | Required                                | The text to display on the button                     |
+| `onPressed`             | `Future<void> Function()`  | Required                                | The async function to execute when button is pressed  |
+| `onSuccess`             | `Future<void> Function()?` | `null`                                  | Callback function to execute on success               |
+| `onFailure`             | `Future<void> Function()?` | `null`                                  | Callback function to execute on failure               |
+| `onComplete`            | `Future<void> Function()?` | `null`                                  | Callback function to execute on completion            |
+| `estimatedTime`         | `Duration`                 | Required                                | Expected duration of the async operation              |
+| `width`                 | `double`                   | `200`                                   | Width of the button (ignored if `stretched` is true)  |
+| `height`                | `double`                   | `40`                                    | Height of the button                                  |
+| `backgroundColor`       | `Color`                    | `Color(0xFFADD8E6)`                     | Background color of the button                        |
+| `progressColor`         | `Color`                    | `Color(0xFF87CEEB)`                     | Color of the progress indicator                       |
+| `showCircularIndicator` | `bool`                     | `true`                                  | Whether to show the circular loading indicator        |
+| `progressCap`           | `double`                   | `0.9`                                   | Maximum progress value before completion (0.0 to 1.0) |
+| `stretched`             | `bool`                     | `false`                                 | Whether the button should stretch to full width       |
+| `textStyle`             | `TextStyle`                | `TextStyle(...)`                        | Text style of the button text                         |
+| `borderRadius`          | `BorderRadius`             | `BorderRadius.all(Radius.circular(20))` | Border radius of the button                           |
+| `elevation`             | `double`                   | Required                                | Elevation of the button                               |
+| `shadowColor`           | `Color`                    | `Colors.transparent`                    | Shadow color of the button                            |
+| `enableHapticFeedback`  | `bool`                     | `true`                                  | Whether to enable haptic feedback on button press     |
 
 ## Usage
 
