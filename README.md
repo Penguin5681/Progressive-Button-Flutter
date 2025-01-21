@@ -13,6 +13,7 @@ A customizable Flutter button widget with built-in loading and progress indicato
 - Completion callback
 - Elevation and shadow color customization
 - Haptic feedback (optional)
+- Custom audio effect on button press
 
 ## Parameters
 
@@ -36,19 +37,21 @@ A customizable Flutter button widget with built-in loading and progress indicato
 | `elevation`             | `double`                   | Required                                | Elevation of the button                               |
 | `shadowColor`           | `Color`                    | `Colors.transparent`                    | Shadow color of the button                            |
 | `enableHapticFeedback`  | `bool`                     | `true`                                  | Whether to enable haptic feedback on button press     |
+| `audioAssetPath`        | `String?`                  | `null`                                  | Path for custom audio effect                          |
+| `volume`                | `double`                   | `1.0`                                   | Volume for the audio effect                           |
 
 ## Usage
 
 ```dart
 // Fixed width button
-AwesomeButton(
+ProgressiveButtonFlutter(
   text: "Submit",
   onPressed: () async => await submitData(),
   estimatedTime: Duration(seconds: 2),
 );
 
 // Full width button
-AwesomeButton(
+ProgressiveButtonFlutter(
   text: "Submit",
   onPressed: () async => await submitData(),
   estimatedTime: Duration(seconds: 2),
@@ -56,7 +59,7 @@ AwesomeButton(
 );
 
 // Custom styled button
-AwesomeButton(
+ProgressiveButtonFlutter(
   text: "Submit",
   onPressed: () async => await submitData(),
   estimatedTime: Duration(seconds: 3),
@@ -66,9 +69,12 @@ AwesomeButton(
   progressColor: Colors.lightBlue,
   showCircularIndicator: false,
   progressCap: 0.8,
+  audioAssetPath: 'assets/audio/pop_effect.wav',
+  volume: 0.5,
 );
 ```
+
 ## 🚀Showcase
 
-![demo_button](https://github.com/user-attachments/assets/66fb6c21-cf5b-4124-a38e-1870bddcb0fc)
+![demo](https://s13.gifyu.com/images/SelEy.gif)](https://gifyu.com/image/SelEy)
 

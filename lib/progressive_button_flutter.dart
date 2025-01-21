@@ -6,6 +6,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:just_audio/just_audio.dart';
 
 /// A stateful widget that displays a button with loading progress animation.
 ///
@@ -73,6 +74,12 @@ class ProgressiveButtonFlutter extends StatefulWidget {
   /// The gradient for the progress indicator
   final Gradient? progressGradient;
 
+  /// Path for custom audio effect
+  final String? audioAssetPath;
+
+  /// Volume for the audio effect
+  final double volume;
+
   const ProgressiveButtonFlutter({
     super.key,
     required this.text,
@@ -99,22 +106,64 @@ class ProgressiveButtonFlutter extends StatefulWidget {
     this.enableHapticFeedback = true,
     this.gradient,
     this.progressGradient,
+    this.audioAssetPath,
+    this.volume = 1.0,
   });
 
   @override
-  State<ProgressiveButtonFlutter> createState() =>
-      _ProgressiveButtonFlutterState();
+  State<ProgressiveButtonFlutter> createState() => _ProgressiveButtonFlutterState();
 }
 
 class _ProgressiveButtonFlutterState extends State<ProgressiveButtonFlutter> {
   bool _isLoading = false;
   double _progress = 0.0;
   Timer? _progressTimer;
+  AudioPlayer? _audioPlayer;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.audioAssetPath != null) {
+      _audioPlayer = AudioPlayer();
+      _initAudio();
+    }
+  }
+
+  Future<void> _initAudio() async {
+    debugPrint('Initializing audio with path: ${widget.audioAssetPath}');
+    if (widget.audioAssetPath != null && _audioPlayer != null) {
+      try {
+        await _audioPlayer!.setVolume(widget.volume);
+      } catch (e, stackTrace) {
+        debugPrint('Error loading audio: $e');
+        debugPrint('Stack trace: $stackTrace');
+      }
+    }
+  }
+
+  Future<void> _playAudio() async {
+    debugPrint('Attempting to play audio');
+    if (_audioPlayer != null) {
+      try {
+        await _audioPlayer!.seek(Duration.zero);
+        final duration = _audioPlayer!.duration;
+        if (duration == null) {
+          await _initAudio();
+        }
+        await _audioPlayer!.play();
+        await Future.delayed(const Duration(milliseconds: 100));
+      } catch (e, stackTrace) {
+        debugPrint('Error playing audio: $e');
+        debugPrint('Stack trace: $stackTrace');
+      }
+    } else {
+      debugPrint('AudioPlayer is null');
+    }
+  }
 
   void startProgressSimulation() {
     const updateInterval = Duration(milliseconds: 100);
-    final totalInterval =
-        widget.estimatedTime.inMilliseconds / updateInterval.inMilliseconds;
+    final totalInterval = widget.estimatedTime.inMilliseconds / updateInterval.inMilliseconds;
     double progressPerInterval = 1 / totalInterval;
 
     _progressTimer = Timer.periodic(updateInterval, (timer) {
@@ -132,6 +181,10 @@ class _ProgressiveButtonFlutterState extends State<ProgressiveButtonFlutter> {
   }
 
   Future<void> handlePress() async {
+    if (widget.audioAssetPath != null) {
+      await _playAudio();
+    }
+
     if (widget.enableHapticFeedback) {
       HapticFeedback.vibrate();
     }
@@ -139,6 +192,7 @@ class _ProgressiveButtonFlutterState extends State<ProgressiveButtonFlutter> {
     if (_isLoading) {
       return;
     }
+
     setState(() {
       _isLoading = true;
       _progress = 0.0;
@@ -175,6 +229,7 @@ class _ProgressiveButtonFlutterState extends State<ProgressiveButtonFlutter> {
   @override
   void dispose() {
     _progressTimer?.cancel();
+    _audioPlayer?.dispose();
     super.dispose();
   }
 
@@ -190,9 +245,7 @@ class _ProgressiveButtonFlutterState extends State<ProgressiveButtonFlutter> {
           width: widget.stretched ? double.infinity : widget.width,
           height: widget.height,
           decoration: BoxDecoration(
-            gradient: widget.gradient ??
-                LinearGradient(
-                    colors: [widget.backgroundColor, widget.backgroundColor]),
+            gradient: widget.gradient ?? LinearGradient(colors: [widget.backgroundColor, widget.backgroundColor]),
             borderRadius: widget.borderRadius,
             color: widget.backgroundColor,
           ),
@@ -207,9 +260,7 @@ class _ProgressiveButtonFlutterState extends State<ProgressiveButtonFlutter> {
                     height: widget.height,
                     decoration: BoxDecoration(
                       gradient: widget.progressGradient,
-                      color: widget.progressGradient == null
-                          ? widget.progressColor
-                          : null,
+                      color: widget.progressGradient == null ? widget.progressColor : null,
                     ),
                   ),
                   Center(
@@ -223,8 +274,7 @@ class _ProgressiveButtonFlutterState extends State<ProgressiveButtonFlutter> {
                                   height: 20,
                                   child: CircularProgressIndicator(
                                     strokeWidth: 2,
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                        Colors.white),
+                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                                   ),
                                 ),
                               const SizedBox(width: 8),

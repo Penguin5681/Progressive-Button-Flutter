@@ -29,3 +29,13 @@
 
 ### Updated
 - Documentation in `README.md` to include new parameters and features.
+
+## 1.1.0
+
+### Added
+- `audioAssetPath` parameter to specify the path for a custom audio effect.
+- `volume` parameter to set the volume for the audio effect.
+
+### Updated
+- `ProgressiveButtonFlutter` now supports playing custom audio effects when the button is pressed.
+- Improved error handling and debugging for audio playback issues.

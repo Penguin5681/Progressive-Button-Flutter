@@ -65,8 +65,10 @@ class MyHomePage extends StatelessWidget {
             ProgressiveButtonFlutter(
               text: 'Default Button',
               onPressed: makeApiCall,
-              estimatedTime: const Duration(seconds: 5),
+              estimatedTime: const Duration(seconds: 1),
               elevation: 5,
+              audioAssetPath: 'assets/audio/pop_effect.wav',
+              volume: 1.0,
             ),
             const SizedBox(height: 50),
             ProgressiveButtonFlutter(
@@ -124,6 +126,7 @@ class MyHomePage extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               elevation: 5,
             ),
+            const SizedBox(height: 50,),
           ],
         ),
       ),

@@ -13,6 +13,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   progressive_button_flutter:
     path: ../
+  just_audio: ^0.9.43
 
 dev_dependencies:
   flutter_test:
@@ -21,3 +22,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/audio/pop2.mp3
+    - assets/audio/pop_effect.wav
