@@ -1,0 +1,19 @@
+name: progressive_button_flutter
+description: "A Progressive Button with linear loading animation"
+version: 0.0.1
+homepage: https://github.com/Penguin5681/Progressive-Button-Flutter
+
+environment:
+  sdk: ^3.5.4
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
