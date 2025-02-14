@@ -114,6 +114,7 @@ class MyHomePage extends StatelessWidget {
             const SizedBox(height: 50),
             ProgressiveButtonFlutter(
               text: 'Custom Styled Button',
+              isEnabled: true,
               onPressed: makeApiCall,
               estimatedTime: const Duration(seconds: 5),
               backgroundColor: Colors.blue,
@@ -126,7 +127,9 @@ class MyHomePage extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               elevation: 5,
             ),
-            const SizedBox(height: 50,),
+            const SizedBox(
+              height: 50,
+            ),
           ],
         ),
       ),

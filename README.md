@@ -1,3 +1,5 @@
+![Pub Version](https://img.shields.io/pub/v/progressive_button_flutter)
+
 # Progressive Button
 
 A customizable Flutter button widget with built-in loading and progress indicators.
@@ -39,6 +41,7 @@ A customizable Flutter button widget with built-in loading and progress indicato
 | `enableHapticFeedback`  | `bool`                     | `true`                                  | Whether to enable haptic feedback on button press     |
 | `audioAssetPath`        | `String?`                  | `null`                                  | Path for custom audio effect                          |
 | `volume`                | `double`                   | `1.0`                                   | Volume for the audio effect                           |
+| `isEnabled`             | `bool`                     | `true`                                  | Whether the button is enabled or disabled             |
 
 ## Usage
 

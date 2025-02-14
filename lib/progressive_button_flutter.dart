@@ -80,6 +80,9 @@ class ProgressiveButtonFlutter extends StatefulWidget {
   /// Volume for the audio effect
   final double volume;
 
+  /// For setting the button enabled/disabled
+  final bool isEnabled;
+
   const ProgressiveButtonFlutter({
     super.key,
     required this.text,
@@ -108,10 +111,12 @@ class ProgressiveButtonFlutter extends StatefulWidget {
     this.progressGradient,
     this.audioAssetPath,
     this.volume = 1.0,
+    this.isEnabled = true,
   });
 
   @override
-  State<ProgressiveButtonFlutter> createState() => _ProgressiveButtonFlutterState();
+  State<ProgressiveButtonFlutter> createState() =>
+      _ProgressiveButtonFlutterState();
 }
 
 class _ProgressiveButtonFlutterState extends State<ProgressiveButtonFlutter> {
@@ -163,7 +168,8 @@ class _ProgressiveButtonFlutterState extends State<ProgressiveButtonFlutter> {
 
   void startProgressSimulation() {
     const updateInterval = Duration(milliseconds: 100);
-    final totalInterval = widget.estimatedTime.inMilliseconds / updateInterval.inMilliseconds;
+    final totalInterval =
+        widget.estimatedTime.inMilliseconds / updateInterval.inMilliseconds;
     double progressPerInterval = 1 / totalInterval;
 
     _progressTimer = Timer.periodic(updateInterval, (timer) {
@@ -189,7 +195,7 @@ class _ProgressiveButtonFlutterState extends State<ProgressiveButtonFlutter> {
       HapticFeedback.vibrate();
     }
 
-    if (_isLoading) {
+    if (!widget.isEnabled || _isLoading) {
       return;
     }
 
@@ -236,66 +242,74 @@ class _ProgressiveButtonFlutterState extends State<ProgressiveButtonFlutter> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: handlePress,
+      onTap: widget.isEnabled ? handlePress : null,
       child: Material(
         elevation: widget.elevation,
         borderRadius: widget.borderRadius,
         shadowColor: Colors.blue,
-        child: Container(
-          width: widget.stretched ? double.infinity : widget.width,
-          height: widget.height,
-          decoration: BoxDecoration(
-            gradient: widget.gradient ?? LinearGradient(colors: [widget.backgroundColor, widget.backgroundColor]),
-            borderRadius: widget.borderRadius,
-            color: widget.backgroundColor,
-          ),
-          clipBehavior: Clip.hardEdge,
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return Stack(
-                children: [
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 100),
-                    width: constraints.maxWidth * _progress,
-                    height: widget.height,
-                    decoration: BoxDecoration(
-                      gradient: widget.progressGradient,
-                      color: widget.progressGradient == null ? widget.progressColor : null,
+        child: Opacity(
+          opacity: widget.isEnabled ? 1.0 : 0.5,
+          child: Container(
+            width: widget.stretched ? double.infinity : widget.width,
+            height: widget.height,
+            decoration: BoxDecoration(
+              gradient: widget.gradient ??
+                  LinearGradient(
+                      colors: [widget.backgroundColor, widget.backgroundColor]),
+              borderRadius: widget.borderRadius,
+              color: widget.backgroundColor,
+            ),
+            clipBehavior: Clip.hardEdge,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return Stack(
+                  children: [
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 100),
+                      width: constraints.maxWidth * _progress,
+                      height: widget.height,
+                      decoration: BoxDecoration(
+                        gradient: widget.progressGradient,
+                        color: widget.progressGradient == null
+                            ? widget.progressColor
+                            : null,
+                      ),
                     ),
-                  ),
-                  Center(
-                    child: _isLoading
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              if (widget.showCircularIndicator)
-                                const SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    Center(
+                      child: _isLoading
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                if (widget.showCircularIndicator)
+                                  const SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.white),
+                                    ),
+                                  ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  '${(_progress * 100).toInt()}%',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              const SizedBox(width: 8),
-                              Text(
-                                '${(_progress * 100).toInt()}%',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          )
-                        : Text(
-                            widget.text,
-                            style: widget.textStyle,
-                          ),
-                  ),
-                ],
-              );
-            },
+                              ],
+                            )
+                          : Text(
+                              widget.text,
+                              style: widget.textStyle,
+                            ),
+                    ),
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),

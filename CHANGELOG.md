@@ -39,3 +39,12 @@
 ### Updated
 - `ProgressiveButtonFlutter` now supports playing custom audio effects when the button is pressed.
 - Improved error handling and debugging for audio playback issues.
+
+## 1.2.0
+
+### Added
+- `isEnabled` parameter to control whether the button is enabled or disabled.
+- Button opacity changes to 0.5 when disabled.
+
+### Updated
+- Documentation in `README.md` to include the `isEnabled` parameter.
